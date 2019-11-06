@@ -11,7 +11,7 @@ echo -e "$(date +%F\ %T.%N) \t ############ Starting SQL Server..."
 	-P Itau@2019 \
 	-l 1 \
 	-t 1 \
-	-Q "use MicroServices;  SELECT table_name FROM information_schema.tables where table_name='msg_cod_seg'"  | grep "^(1 row.*$"
+	-Q "use TranslatorServices;  SELECT table_name FROM information_schema.tables where table_name='main'"  | grep "^(1 row.*$"
 	
 
 exit $?
