@@ -1,0 +1,26 @@
+version: "2.1"
+services:      
+  ubuntu:
+    image: ubuntu
+    depends_on:
+      mssql-server:
+        condition: service_healthy
+
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: always
+    container_name: mssql-container
+    volumes:
+      - ./docker/mssql/scripts:/tmp/scripts    
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Itau@2019
+    ports:
+      - 1433:1433
+    command: 
+      - /tmp/scripts/launch-db.sh
+    healthcheck:
+      test: ["CMD", "bash",  "/tmp/scripts/select-db.sh"]
+      interval: 30s
+      timeout:  30s
+      retries:  50
