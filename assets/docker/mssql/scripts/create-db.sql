@@ -1,11 +1,13 @@
-CREATE database TranslatorServices;
+CREATE database EncryptorServices;
 GO
 
-USE TranslatorServices;
+USE EncryptorServices;
 GO
 
-CREATE TABLE TranslatorServices.dbo.main (
-	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	description varchar(255) NOT NULL UNIQUE
-); 
+CREATE TABLE EncryptorServices.dbo.Encryptor (
+	ID int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Key varchar(35) NOT NULL UNIQUE,
+	Salt varchar(35) NOT NULL UNIQUE,
+	Created_date CURRENT_TIMESTAMP NOT NULL UNIQUE
+);
 GO

@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class ApiTranslatorApplication {
+public class ApiEncryptorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiTranslatorApplication.class, args);
+		SpringApplication.run(ApiEncryptorApplication.class, args);
 	}
 
 	@Bean
