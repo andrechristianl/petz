@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="KeyTable")
-public class KeyTable {
+@Table(name="KeyStore")
+public class KeyStore {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -18,7 +18,7 @@ public class KeyTable {
 	
 	@NotEmpty
 	@Column(name="secret_key")
-	private String key;
+	private String secretKey;
 	
 	@NotEmpty
 	@Column(name="salt")
@@ -36,12 +36,12 @@ public class KeyTable {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
+	public String getSecretKey() {
+		return secretKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
 	}
 
 	public String getSalt() {
