@@ -9,9 +9,9 @@ services:
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest
     restart: always
-    container_name: mssql-container
+    container_name: mssql-keystore-container
     volumes:
-      - ./docker/mssql/scripts:/tmp/scripts    
+      - ./docker/mssql/scripts:/tmp/scripts
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Itau@2019

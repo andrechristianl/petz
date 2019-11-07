@@ -1,13 +1,13 @@
-CREATE database EncryptorServices;
+CREATE database KeyStore;
 GO
 
-USE EncryptorServices;
+USE KeyStore;
 GO
 
-CREATE TABLE EncryptorServices.dbo.Encryptor (
-	ID int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Key varchar(35) NOT NULL UNIQUE,
-	Salt varchar(35) NOT NULL UNIQUE,
-	Created_date CURRENT_TIMESTAMP NOT NULL UNIQUE
+CREATE TABLE KeyStore.dbo.KeyTable (
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	secret_key varchar(35) NOT NULL UNIQUE,
+	salt varchar(35) NOT NULL UNIQUE,
+	created_date TIMESTAMP NOT NULL UNIQUE
 );
 GO

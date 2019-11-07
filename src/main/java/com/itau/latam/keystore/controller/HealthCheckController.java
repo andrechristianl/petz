@@ -1,4 +1,4 @@
-package com.itau.latam.encryptor.controller;
+package com.itau.latam.keystore.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 

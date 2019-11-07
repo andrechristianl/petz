@@ -1,26 +1,31 @@
-package com.itau.latam.encryptor.model.dto;
+package com.itau.latam.keystore.repository.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-@JsonInclude(Include.NON_NULL)
-public class EncryptorDTO {
-	@Column(name = "ID")
+@Entity
+@Table(name="KeyTable")
+public class KeyTable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
 	@NotEmpty
-	@Column(name="Key")
+	@Column(name="secret_key")
 	private String key;
 	
 	@NotEmpty
-	@Column(name="Salt")
+	@Column(name="salt")
 	private String salt;
 	
 	@NotEmpty
-	@Column(name="Created_date")
+	@Column(name="created_date")
 	private String dateCreated;
 
 	public int getId() {
