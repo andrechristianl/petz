@@ -21,7 +21,7 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	
 	
 	@Override
-	public List<CompleteDataDTO> encryptData(CompleteDataDTO completeDataDTO) {
+	public List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeDataDTO) {
 		try
 	    {
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
@@ -30,10 +30,19 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	        byte[] IV = new byte[16];
 	        SecureRandom random = new SecureRandom();
 	        random.nextBytes(IV);
-	        completeDataDTO.setEncryptted(Base64.getEncoder().
-		                          encodeToString(encrypt(completeDataDTO.getPlaintext().getBytes(),
-     		                                     keyGenerator.generateKey(), IV)));
-	        return Arrays.asList(completeDataDTO);
+	        completeDataDTO.stream().forEach(c -> 
+		          {
+					try {
+						c.setEncryptted(Base64.getEncoder().
+								          encodeToString(encrypt(c.getPlaintext().getBytes(),
+								        		                 keyGenerator.generateKey(), IV)));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			
+		     );
+	        return completeDataDTO;
 	    } 
 	    catch (Exception e) 
 	    {
@@ -44,7 +53,7 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	}
 
 	@Override
-	public List<CompleteDataDTO> decryptData(CompleteDataDTO completeDataDTO) {
+	public List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeDataDTO) {
 		try
 	    {
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
@@ -53,8 +62,20 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	        byte[] IV = new byte[16];
 	        SecureRandom random = new SecureRandom();
 	        random.nextBytes(IV);
-	        completeDataDTO.setPlaintext(decrypt(completeDataDTO.getEncryptted().getBytes(),keyGenerator.generateKey(), IV));
-	        return Arrays.asList(completeDataDTO);
+	        completeDataDTO.stream().forEach(c -> 
+	          {
+				try {
+					c.setPlaintext(Base64.getEncoder().
+							          encodeToString(encrypt(c.getEncryptted().getBytes(),
+							        		                 keyGenerator.generateKey(), IV)));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		
+	     );
+      return completeDataDTO;
+
 	    } 
 	    catch (Exception e) 
 	    {
