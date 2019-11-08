@@ -1,9 +1,10 @@
 package com.itau.latam.keystore.service.impl;
 
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Base64;
+
 import java.util.List;
+
+import java.security.SecureRandom;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -19,23 +20,27 @@ import com.itau.latam.keystore.service.CompleteDataService;
 @Service
 public class CompleteDataServiceImpl implements CompleteDataService{
 	
+	KeyGenerator keyGenerator = null;
 	
+    SecretKey key = null;
+
+    // Generating IV.
+    byte[] IV = new byte[16];
+    private SecureRandom random = new SecureRandom();
+    
 	@Override
 	public List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeDataDTO) {
 		try
-	    {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			keyGenerator.init(256);
-			// Generating IV.
-	        byte[] IV = new byte[16];
-	        SecureRandom random = new SecureRandom();
-	        random.nextBytes(IV);
-	        completeDataDTO.stream().forEach(c -> 
+	    {    
+			 keyGenerator = KeyGenerator.getInstance("AES");
+			 keyGenerator.init(256);
+			 key = keyGenerator.generateKey();
+			 random.nextBytes(IV);
+				
+			 completeDataDTO.stream().forEach(c -> 
 		          {
 					try {
-						c.setEncryptted(Base64.getEncoder().
-								          encodeToString(encrypt(c.getPlaintext().getBytes(),
-								        		                 keyGenerator.generateKey(), IV)));
+						c.setEncryptted(Base64.getEncoder().encodeToString(encrypt(c.getPlaintext().getBytes(),key,IV )));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -56,18 +61,10 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	public List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeDataDTO) {
 		try
 	    {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			keyGenerator.init(256);
-			 // Generating IV.
-	        byte[] IV = new byte[16];
-	        SecureRandom random = new SecureRandom();
-	        random.nextBytes(IV);
-	        completeDataDTO.stream().forEach(c -> 
+			completeDataDTO.stream().forEach(c -> 
 	          {
 				try {
-					c.setPlaintext(Base64.getEncoder().
-							          encodeToString(encrypt(c.getEncryptted().getBytes(),
-							        		                 keyGenerator.generateKey(), IV)));
+					c.setPlaintext(decrypt(Base64.getDecoder().decode(c.getEncryptted()),key, IV));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -103,7 +100,7 @@ public class CompleteDataServiceImpl implements CompleteDataService{
         
         return cipherText;
     }
-	
+    
     public static String decrypt (byte[] cipherText, SecretKey key,byte[] IV) throws Exception
     {
         //Get Cipher Instance
