@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class KeyTableDTO {
+public class KeyStoreDTO {
 	@Column(name = "id")
 	private int id;
 	
 	@NotEmpty
 	@Column(name="secret_key")
-	private String key;
+	private String secretKey;
 	
 	@NotEmpty
 	@Column(name="salt")
@@ -31,12 +31,12 @@ public class KeyTableDTO {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
+	public String getSecretKey() {
+		return secretKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
 	}
 
 	public String getSalt() {

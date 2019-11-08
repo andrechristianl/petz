@@ -11,7 +11,7 @@ echo -e "$(date +%F\ %T.%N) \t ############ Starting SQL Server..."
 	-P Itau@2019 \
 	-l 1 \
 	-t 1 \
-	-Q "use KeyStore;  SELECT table_name FROM information_schema.tables where table_name='KeyTable'"  | grep "^(1 row.*$"
+	-Q "use Stores;  SELECT table_name FROM information_schema.tables where table_name='KeyStore'"  | grep "^(1 row.*$"
 	
 
 exit $?

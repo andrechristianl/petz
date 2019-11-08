@@ -1,13 +1,13 @@
-CREATE database KeyStore;
+CREATE database Stores;
 GO
 
-USE KeyStore;
+USE Stores;
 GO
 
-CREATE TABLE KeyStore.dbo.KeyTable (
+CREATE TABLE Stores.dbo.KeyStore (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	secret_key varchar(35) NOT NULL UNIQUE,
 	salt varchar(35) NOT NULL UNIQUE,
-	created_date TIMESTAMP NOT NULL UNIQUE
+	created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP UNIQUE
 );
 GO
