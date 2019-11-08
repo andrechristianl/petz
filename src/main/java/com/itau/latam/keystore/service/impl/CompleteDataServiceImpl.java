@@ -14,7 +14,6 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Service;
 
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
-import com.itau.latam.keystore.repository.entity.CompleteData;
 import com.itau.latam.keystore.service.CompleteDataService;
 
 @Service
@@ -25,19 +24,16 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	public List<CompleteDataDTO> encryptData(CompleteDataDTO completeDataDTO) {
 		try
 	    {
-			CompleteData completeData = new CompleteData();
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
 			keyGenerator.init(256);
 			// Generating IV.
 	        byte[] IV = new byte[16];
 	        SecureRandom random = new SecureRandom();
 	        random.nextBytes(IV);
-	        completeData.setPlaintext(completeDataDTO.getPlaintext());
-	        completeData.setEncryptted(Base64.getEncoder().
+	        completeDataDTO.setEncryptted(Base64.getEncoder().
 		                          encodeToString(encrypt(completeDataDTO.getPlaintext().getBytes(),
      		                                     keyGenerator.generateKey(), IV)));
-	        List<CompleteDataDTO> completeDtDTO = FormatterServiceImpl.convertEntityToDTO(Arrays.asList(completeData),CompleteDataDTO.class);
-		    return completeDtDTO;
+	        return Arrays.asList(completeDataDTO);
 	    } 
 	    catch (Exception e) 
 	    {
@@ -51,17 +47,14 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	public List<CompleteDataDTO> decryptData(CompleteDataDTO completeDataDTO) {
 		try
 	    {
-			CompleteData completeData = new CompleteData();
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
 			keyGenerator.init(256);
 			 // Generating IV.
 	        byte[] IV = new byte[16];
 	        SecureRandom random = new SecureRandom();
 	        random.nextBytes(IV);
-	        completeData.setEncryptted(completeDataDTO.getEncryptted());
-	        completeData.setPlaintext(decrypt(completeDataDTO.getEncryptted().getBytes(),keyGenerator.generateKey(), IV));
-	        List<CompleteDataDTO> completeDtDTO = FormatterServiceImpl.convertEntityToDTO(Arrays.asList(completeData),CompleteDataDTO.class);
-			return completeDtDTO;
+	        completeDataDTO.setPlaintext(decrypt(completeDataDTO.getEncryptted().getBytes(),keyGenerator.generateKey(), IV));
+	        return Arrays.asList(completeDataDTO);
 	    } 
 	    catch (Exception e) 
 	    {
