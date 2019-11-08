@@ -10,9 +10,9 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.poc.microservices</groupId>
-    <artifactId>message-handler-service-community</artifactId>
+    <artifactId>itau-latam-keystore</artifactId>
     <version>0.0.1</version>
-    <name>message-handler-service-community</name>
+    <name>itau-latam-keystore</name>
 
     <properties>
         <java.version>1.8</java.version>
