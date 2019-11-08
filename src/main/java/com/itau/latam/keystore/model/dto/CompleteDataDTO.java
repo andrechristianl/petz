@@ -1,28 +1,24 @@
 package com.itau.latam.keystore.model.dto;
 
-import java.util.List;
-
 public class CompleteDataDTO {
 	
-	private List<?> plaintext;
+	private String plaintext;
 	
-	private List<?> encryptted;
+	private String encryptted;
 
-	public List<?> getPlaintext() {
+	public String getPlaintext() {
 		return plaintext;
 	}
 
-	public void setPlaintext(List<?> plaintext) {
+	public void setPlaintext(String plaintext) {
 		this.plaintext = plaintext;
 	}
 
-	public List<?> getEncryptted() {
+	public String getEncryptted() {
 		return encryptted;
 	}
 
-	public void setEncryptted(List<?> encryptted) {
+	public void setEncryptted(String encryptted) {
 		this.encryptted = encryptted;
 	}
-
-		
 }
