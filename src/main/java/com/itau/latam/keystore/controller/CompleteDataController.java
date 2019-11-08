@@ -24,13 +24,13 @@ public class CompleteDataController {
 	@ResponseBody
 	@RequestMapping(value = "/encrypt", method = POST)
 	public List<CompleteDataDTO> encrypt(@RequestBody CompleteDataDTO completeData) throws ConstraintViolationException, ServiceException{
-		return completeDataService.encrypt(completeData); 
+		return completeDataService.encryptData(completeData); 
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/decrypt", method = POST)
 	public List<CompleteDataDTO> decrypt(@RequestBody CompleteDataDTO completeData) throws ConstraintViolationException, ServiceException{
-		return completeDataService.decrypt(completeData); 
+		return completeDataService.decryptData(completeData); 
 	}
 
 }

@@ -6,7 +6,7 @@ public class CompleteData {
 	private String plaintext;
 	
 	private String encryptted;
-
+	
 	public String getPlaintext() {
 		return plaintext;
 	}
@@ -21,5 +21,5 @@ public class CompleteData {
 
 	public void setEncryptted(String encryptted) {
 		this.encryptted = encryptted;
-	}
+	}	
 }
