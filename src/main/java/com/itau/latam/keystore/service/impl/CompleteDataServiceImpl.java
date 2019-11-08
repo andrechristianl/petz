@@ -1,6 +1,7 @@
 package com.itau.latam.keystore.service.impl;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -64,8 +65,9 @@ public class CompleteDataServiceImpl implements CompleteDataService{
 	        completeDataDTO.stream().forEach(c -> 
 	          {
 				try {
-					c.setPlaintext(decrypt(c.getEncryptted().getBytes(),
-							        		                 keyGenerator.generateKey(), IV));
+					c.setPlaintext(Base64.getEncoder().
+							          encodeToString(encrypt(c.getEncryptted().getBytes(),
+							        		                 keyGenerator.generateKey(), IV)));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
