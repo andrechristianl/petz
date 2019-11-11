@@ -29,29 +29,37 @@ public final class AESCBC256 {
     private static String secretKeyInstance = "PBKDF2WithHmacSHA256";
     private static String transformation = "AES/CBC/PKCS5Padding";
    
+    private static final String PERIOD = ".";
+    private static final String REGEX_PERIOD = "\\".concat(PERIOD);
+
     public static String encrypt(String clearText) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException {
-        SecretKeySpec secretKey = getSecretKey();
-        Cipher cipher = getCipherInstance();
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
+        Cipher cipher = initCipher(Cipher.ENCRYPT_MODE);
         return createUTF8String(cipher.doFinal(clearText.getBytes(StandardCharsets.UTF_8.name())));
     }
 
     public static String decrypt(String decodedByteArray) throws InvalidKeyException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException {
-        SecretKeySpec secretKey = getSecretKey();
-        Cipher cipher = getCipherInstance();
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
+        Cipher cipher = initCipher(Cipher.DECRYPT_MODE);
         return createUTF8String(cipher.doFinal(decodedByteArray.getBytes()));
     }
+
+    private static Cipher initCipher(int cipherMode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, InvalidKeySpecException {
+        Cipher cipher = getCipherInstance();
+        cipher.init(cipherMode, getSecretKey(), ivspec);
+        return cipher;
+    }
     
-    public static String encodeCustomHash(String id, byte[] encryptedByteArray) throws UnsupportedEncodingException {
-        return encodeBase64(encodeBase64(id).concat(".").concat(createUTF8String(encryptedByteArray)));
+    public static String encodeCustomHash(String id, byte[] inputByteArray) throws UnsupportedEncodingException {
+        return encodeBase64(encodeBase64(id).concat(PERIOD).concat(createUTF8String(inputByteArray)));
     }
     
     public static String[] decodeCustomHash(String input) throws UnsupportedEncodingException {
-        String[] array = decodeBase64(input).split("\\.");
+        String[] array = decodeBase64(input).split(REGEX_PERIOD);
         String[] decodedArray= {decodeBase64(array[0]), array[1]};
         return decodedArray;
     }
+    
+    
+    
     
     private static SecretKeySpec getSecretKey() throws InvalidKeySpecException, NoSuchAlgorithmException {
         SecretKeyFactory factory = SecretKeyFactory.getInstance(secretKeyInstance);
