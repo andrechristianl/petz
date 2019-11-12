@@ -16,13 +16,13 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         try {
             completeDataDTO.stream().forEach(c -> {
                 try {
-                    // Inserir chamada do serviço encriptador
-                    c.setEncryptted(AESCBC256.encrypt(c.getPlaintext()));
+                    String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
+                    c.setEncryptted(encryptedData);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
+            
             );
             return completeDataDTO;
         } catch (Exception e) {
@@ -37,8 +37,8 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         try {
             completeDataDTO.stream().forEach(c -> {
                 try {
-                    // Inserir chamada do serviço decryptador
-                    c.setPlaintext(AESCBC256.decrypt(c.getEncryptted()));
+                    String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
+                    c.setPlaintext(decryptedData);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
