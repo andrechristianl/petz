@@ -10,14 +10,8 @@ import com.itau.latam.keystore.repository.entity.KeyStore;
 
 @Repository
 public interface KeyStoreRepository extends JpaRepository<KeyStore, Integer>{
-	
-	
-	List<KeyStore> findById(int id);
+	KeyStore findById(int id);
 
-	@Query(value ="SELECT TOP 1 * FROM  Stores.dbo.KeyStore  WITH (NOLOCK) ORDER BY created_date DESC",
-			nativeQuery = true)
+	@Query(value ="SELECT TOP 1 * FROM  Stores.dbo.KeyStore  WITH (NOLOCK) ORDER BY created_date DESC", nativeQuery = true)
 	List<KeyStore> findAllCreateDate();
-	
-	
-	
 }
