@@ -5,7 +5,7 @@ import com.itau.latam.keystore.model.dto.KeyStoreDTO;
 
 public interface KeyStoreService {
 	
-	List<KeyStoreDTO> findById(int id);
+	KeyStoreDTO findById(int id);
 
 	List<KeyStoreDTO> findByDate();
 }
