@@ -16,14 +16,14 @@ public class KeyStoreServiceImpl implements KeyStoreService{
 	@Override
 	public KeyStoreDTO findByDate() {
 		KeyStore mainTable = this.keyTableRepository.findLatestDate();
-		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copySimpleObject(mainTable, KeyStoreDTO.class);
+		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject( mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
 
 	@Override
 	public KeyStoreDTO findById(int id) {
 		KeyStore mainTable = this.keyTableRepository.findById(id);
-		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copySimpleObject(mainTable, KeyStoreDTO.class);
+		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
 }
