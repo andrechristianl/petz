@@ -22,7 +22,12 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         List<KeyStore> keyStoreList = this.keyStoreRepository.findAllCreateDate();
         KeyStore keyStore = keyStoreList.isEmpty() ? new KeyStore() : keyStoreList.get(0);
 
-        AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
+        AESCBC256.validateCipherSuite(
+            keyStore.getSecretKey(), 
+            keyStore.getSalt(), 
+            String.valueOf(keyStore.getId())
+        );
+        
         completeDataDTO.stream().forEach(c -> {
             String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
             c.setEncryptted(encryptedData);
@@ -34,12 +39,16 @@ public class CompleteDataServiceImpl implements CompleteDataService {
     public List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeDataDTO) {
         completeDataDTO.stream().forEach(c -> {
             String idKey = AESCBC256.findIdKeyFromEncriptedData(c.getEncryptted());
+            
             KeyStore keyStore = keyStoreRepository.findById(Integer.parseInt(idKey));
+            keyStore = keyStore != null ? keyStore : new KeyStore();
+            
             AESCBC256.validateCipherSuite(
                 keyStore.getSecretKey(), 
                 keyStore.getSalt(), 
                 String.valueOf(keyStore.getId())
             );
+            
             String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
             c.setPlaintext(decryptedData);
         });
