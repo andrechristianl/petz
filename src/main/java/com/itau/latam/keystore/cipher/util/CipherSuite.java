@@ -1,4 +1,4 @@
-package com.itau.latam.keystore.util;
+package com.itau.latam.keystore.cipher.util;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

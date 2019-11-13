@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itau.latam.keystore.cipher.util.AESCBC256;
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
 import com.itau.latam.keystore.repository.KeyStoreRepository;
 import com.itau.latam.keystore.repository.entity.KeyStore;
 import com.itau.latam.keystore.service.CompleteDataService;
-import com.itau.latam.keystore.util.AESCBC256;
 
 @Service
 public class CompleteDataServiceImpl implements CompleteDataService {
