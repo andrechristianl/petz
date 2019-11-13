@@ -25,18 +25,19 @@ public class AESCBC256 {
         ciphers = new HashMap<String, CipherSuite>();
     }
     
-    public static synchronized void validateCipherSuite(String secretKey, String salt, String cipherKey) {
-        CipherSuite selectedCipher = ciphers.get(cipherKey);
+    public static synchronized Map<String, CipherSuite> validateCipherSuite(String secretKey, String salt, String id) {
+        CipherSuite selectedCipher = ciphers.get(id);
         if (selectedCipher == null) {
             CipherSuite c = null;
             try {
                 c = new CipherSuite(secretKey, salt);
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException e) {
+            } catch (NullPointerException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException e) {
                 throw new RuntimeException("There has been an issue while trying to initialize the Cipher");
             }
-            lastId = cipherKey;
-            ciphers.put(cipherKey, c);
+            lastId = id;
+            ciphers.put(id, c);
         }
+        return ciphers;
     }
 
     public static String generateFinalDecryptedData(String encodedInitialString) {
