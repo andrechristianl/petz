@@ -24,9 +24,9 @@ public class KeyStoreServiceImpl implements KeyStoreService{
 	}
 
 	@Override
-	public List<KeyStoreDTO> findById(int id) {
-		List<KeyStore> mainTable = this.keyTableRepository.findById(id);
-		List <KeyStoreDTO> mainTableDTO = FormatterServiceImpl.convertEntityToDTO(mainTable, KeyStoreDTO.class);
+	public KeyStoreDTO findById(int id) {
+		KeyStore mainTable = this.keyTableRepository.findById(id);
+		KeyStoreDTO mainTableDTO = FormatterServiceImpl.convertDTOToEntity(mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
 }
