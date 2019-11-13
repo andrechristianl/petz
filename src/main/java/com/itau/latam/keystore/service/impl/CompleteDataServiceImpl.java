@@ -21,42 +21,26 @@ public class CompleteDataServiceImpl implements CompleteDataService {
     public List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeDataDTO) {
         KeyStore keyStore = this.keyStoreRepository.findAllCreateDate().get(0);
         AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
-        try {
-            completeDataDTO.stream().forEach(c -> {
-                try {
-                    String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
-                    
-                    c.setEncryptted(encryptedData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            return completeDataDTO;
-        } catch (Exception e) {
-            System.out.println("Error while encrypting: " + e.toString());
-            return null;
-        }
+        completeDataDTO.stream().forEach(c -> {
+            String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
+            c.setEncryptted(encryptedData);
+        });
+        return completeDataDTO;
     }
 
     @Override
     public List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeDataDTO) {
-        try {
-            completeDataDTO.stream().forEach(c -> {
-                try {
-                    String idKey = AESCBC256.findIdKeyFromEncriptedData(c.getEncryptted());
-                    KeyStore keyStore = keyStoreRepository.findById(Integer.parseInt(idKey));
-                    AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
-                    
-                    String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
-                    c.setPlaintext(decryptedData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            return completeDataDTO;
-        } catch (Exception e) {
-            System.out.println("Error while encrypting: " + e.toString());
-            return null;
-        }
+        completeDataDTO.stream().forEach(c -> {
+            String idKey = AESCBC256.findIdKeyFromEncriptedData(c.getEncryptted());
+            KeyStore keyStore = keyStoreRepository.findById(Integer.parseInt(idKey));
+            AESCBC256.validateCipherSuite(
+                keyStore.getSecretKey(), 
+                keyStore.getSalt(), 
+                String.valueOf(keyStore.getId())
+            );
+            String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
+            c.setPlaintext(decryptedData);
+        });
+        return completeDataDTO;
     }
 }

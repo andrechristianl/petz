@@ -31,20 +31,20 @@ public class CipherSuite {
     public void initCipherSuite(String secretKeyStr, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         this.ivParameterSpec = new IvParameterSpec(IV);
         this.keySpec = new PBEKeySpec(secretKeyStr.toCharArray(), salt.getBytes(), 65536, 256);
-        this.secretKey = SecretKeyFactory.getInstance(SECRET_KEY_FACTORY_TYPE).generateSecret(keySpec);
-        this.secretKeySpec = new SecretKeySpec(secretKey.getEncoded(), ALGORITHM);
+        this.secretKey = SecretKeyFactory.getInstance(SECRET_KEY_FACTORY_TYPE).generateSecret(this.keySpec);
+        this.secretKeySpec = new SecretKeySpec(this.secretKey.getEncoded(), ALGORITHM);
         this.cipher = Cipher.getInstance(CIPHER_TYPE);
     }
 
     public Cipher getCipher() {
-        return cipher;
+        return this.cipher;
     }
 
     public IvParameterSpec getIvspec() {
-        return ivParameterSpec;
+        return this.ivParameterSpec;
     }
 
     public SecretKeySpec getSecretKey() {
-        return secretKeySpec;
+        return this.secretKeySpec;
     }
 }
