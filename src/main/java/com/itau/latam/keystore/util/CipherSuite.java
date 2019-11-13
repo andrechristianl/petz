@@ -12,8 +12,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class CipherSuite {
-
+public class CipherSuite {    
     private static final String ALGORITHM = "AES";
     private static final String SECRET_KEY_FACTORY_TYPE = "PBKDF2WithHmacSHA256";
     private static final String CIPHER_TYPE = "AES/CBC/PKCS5Padding";
@@ -48,5 +47,4 @@ public class CipherSuite {
     public SecretKeySpec getSecretKey() {
         return secretKeySpec;
     }
-
 }
