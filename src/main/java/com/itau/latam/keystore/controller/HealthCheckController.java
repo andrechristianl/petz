@@ -18,6 +18,7 @@ import com.itau.latam.keystore.service.CompleteDataService;
 
 
 @RestController
+@RequestMapping(value = "/ppid")
 public class HealthCheckController {
 	@Autowired
 	CompleteDataService completeDataService;
