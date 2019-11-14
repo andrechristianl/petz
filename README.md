@@ -46,3 +46,16 @@ docker run \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
+
+___
+### Karate (BDD) ~~
+> This is the external BDD service to be fed  with the desided **.feature** files
+```bash
+docker run \
+  --rm \
+  --name karate-container \
+  -v ${WORKSPACE}/assets/bdd/features:/tmp/features \
+  -v ${WORKSPACE}/assets/bdd/reports:/tmp/reports \
+  -p 15155:8080 \
+  qbarlas/karate-dsl
+```
