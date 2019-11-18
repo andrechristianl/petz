@@ -1,10 +1,10 @@
-## Encryptor Service
+## Keystore Service
 
-> Simple SpringBoot Miniservice application for encrypting and decrypting datas.
+> Simple spring-boot miniservice application for encrypting and decrypting information on demand, while properly encoding and decoding it for transport.
 
 #### How to get the project source
 - Git:
-Temporary: https://github.com/guiban/itau-latam-translator
+Temporary: https://github.com/guiban/itau-latam-keystore
 
 ## Prerequisites
 - JDK 1.8
@@ -14,8 +14,8 @@ Temporary: https://github.com/guiban/itau-latam-translator
 
 ## Running the Services
 > Let **${WORKSPACE}** be the path pointing to this project's source
-  - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//itau//areas//ms//work//itau-latam-translator
-  - Ex.: In Unix environments, **${WORKSPACE}** -> /home/fgbelet/areas/ms/work/itau-latam-translator
+  - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//itau//areas//ms//work//itau-latam-keystore
+  - Ex.: In Unix environments, **${WORKSPACE}** -> /home/fgbelet/areas/ms/work/itau-latam-keystore
 
 ___
 ### This Service ~~
