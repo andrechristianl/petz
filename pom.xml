@@ -9,7 +9,7 @@
         <version>2.1.8.RELEASE</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.poc.microservices</groupId>
+    <groupId>com.itau.latam</groupId>
     <artifactId>itau-latam-keystore</artifactId>
     <version>0.0.1</version>
     <name>itau-latam-keystore</name>
