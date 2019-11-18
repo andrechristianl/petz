@@ -1,56 +1,29 @@
 package com.itau.latam.keystore.cipher.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 import static com.itau.latam.keystore.cipher.util.EncodingUtil.decodeFromBase64;
 import static com.itau.latam.keystore.cipher.util.EncodingUtil.encodeToBase64;
 
-public class AESCBC256 {
-    private static final String DEFAULT_ID_CRIPT_SEPARATOR = ".";
-    
-    private static Map<String, CipherSuite> ciphers;
-    private static String lastId;
-    
-    static {
-        ciphers = new HashMap<String, CipherSuite>();
-    }
-    
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 
-    public static synchronized void validateCipherSuite(String secretKey, String salt, String id) {
-        CipherSuite selectedCipher = ciphers.get(id);
-        if (selectedCipher == null) {
-            CipherSuite c = null;
-            try {
-                c = new CipherSuite(secretKey, salt);
-            } catch (NullPointerException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException e) {
-                throw new RuntimeException("There has been an issue while trying to initialize the Cipher");
-            }
-            lastId = id;
-            ciphers.put(id, c);
-        }
-    }
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
+public class AESCBC256 {
+
+    
+    static String LAST_ID;
+    
 
     public static String generateDecryptedData(String encodedInitialString) {
-        String[] composedArray = generateComposedKey(encodedInitialString);
+        String[] composedArray = CipherSuiteManager.generateComposedKey(encodedInitialString);
         String encodedId = composedArray[0];
         String encriptedData = composedArray[1];
         
         String decryptedString = "";
         try {
-            decryptedString = AESCBC256.decrypt(encriptedData, decodeFromBase64(encodedId));
+            decryptedString = CipherSuiteManager.decrypt(encriptedData, decodeFromBase64(encodedId));
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
             throw new RuntimeException("There has been an issue while trying to decrypt the data");
         }
@@ -61,9 +34,9 @@ public class AESCBC256 {
     public static String generateEncryptedData(String originalString) {
         String finalString = "";
         try {
-            String encryptedString = AESCBC256.encrypt(originalString);
-            String encodedId = encodeToBase64(lastId);
-            finalString = createFinalHashEncripted(encodedId, encryptedString);
+            String encryptedString = CipherSuiteManager.encrypt(originalString);
+            String encodedId = encodeToBase64(LAST_ID);
+            finalString = CipherSuiteManager.createFinalHashEncripted(encodedId, encryptedString);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
             throw new RuntimeException("There has been an issue while trying to encrypt the data");
         }
@@ -71,40 +44,13 @@ public class AESCBC256 {
     }
 
     public static String findIdKeyFromEncriptedData(String encriptedString){
-        return decodeFromBase64(generateComposedKey(encriptedString)[0]);
+        return decodeFromBase64(CipherSuiteManager.generateComposedKey(encriptedString)[0]);
     }
+    
+    
+    
+	public static synchronized void validateCipherSuite(String secretKey, String salt, String id) {
+		CipherSuiteManager.validateCipherSuite(secretKey, salt, id);
+	}
 
-    private static String[] generateComposedKey(String encodedString) {
-        return decodeFromBase64(encodedString).split("\\" + DEFAULT_ID_CRIPT_SEPARATOR, 2);
-    }
-
-    private static String encrypt(String stringToEncrypt) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException{
-        String finalStr = "";
-        CipherSuite cipherSuite = findCipherById(lastId);
-        Cipher cipher = cipherSuite.getCipher();
-        synchronized (cipher) {
-            cipher.init(Cipher.ENCRYPT_MODE, cipherSuite.getSecretKey(), cipherSuite.getIvspec());
-            finalStr = Base64.getEncoder().encodeToString(cipher.doFinal(stringToEncrypt.getBytes(StandardCharsets.UTF_8.name())));
-        }
-        return finalStr;
-    }
-
-    private static String decrypt(String stringToDecrypt, String keyId) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        CipherSuite cipherSuite = findCipherById(keyId);
-        Cipher cipher = cipherSuite.getCipher();
-        cipher.init(Cipher.DECRYPT_MODE, cipherSuite.getSecretKey(), cipherSuite.getIvspec());
-        return new String(cipher.doFinal(Base64.getDecoder().decode(stringToDecrypt)));
-    }
-
-    private static CipherSuite findCipherById(String id) {
-        CipherSuite selectedCipher = id == null ? null : ciphers.get(id);
-        if (selectedCipher == null) {
-            throw new RuntimeException("There has been an issue while trying to retrieve the Cipher");
-        }
-        return selectedCipher;
-    }
-
-    private static String createFinalHashEncripted(String id, String encriptedString) throws UnsupportedEncodingException {
-        return encodeToBase64(id + DEFAULT_ID_CRIPT_SEPARATOR + encriptedString);
-    }
 }
