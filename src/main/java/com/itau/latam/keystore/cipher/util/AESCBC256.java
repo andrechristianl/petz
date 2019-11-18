@@ -28,13 +28,13 @@ public class AESCBC256 {
         ciphers = new HashMap<String, CipherSuite>();
     }
     
-    public static void setCiphers(Map<String, CipherSuite> ciphers) {
-        AESCBC256.ciphers = ciphers;
-    }
-
-    public static void setLastId(String lastId) {
-        AESCBC256.lastId = lastId;
-    }
+//    public static void setCiphers(Map<String, CipherSuite> ciphers) {
+//        AESCBC256.ciphers = ciphers;
+//    }
+//
+//    public static void setLastId(String lastId) {
+//        AESCBC256.lastId = lastId;
+//    }
 
     public static synchronized Map<String, CipherSuite> validateCipherSuite(String secretKey, String salt, String id) {
         CipherSuite selectedCipher = ciphers.get(id);
