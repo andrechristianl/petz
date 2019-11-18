@@ -15,9 +15,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.itau.latam.keystore.validation.DecryptionValidation;
-import com.itau.latam.keystore.validation.EncryptionValidation;
-
 public class AESCBC256 {
     private static final String DEFAULT_ID_CRIPT_SEPARATOR = ".";
     
@@ -28,15 +25,8 @@ public class AESCBC256 {
         ciphers = new HashMap<String, CipherSuite>();
     }
     
-//    public static void setCiphers(Map<String, CipherSuite> ciphers) {
-//        AESCBC256.ciphers = ciphers;
-//    }
-//
-//    public static void setLastId(String lastId) {
-//        AESCBC256.lastId = lastId;
-//    }
 
-    public static synchronized Map<String, CipherSuite> validateCipherSuite(String secretKey, String salt, String id) {
+    public static synchronized void validateCipherSuite(String secretKey, String salt, String id) {
         CipherSuite selectedCipher = ciphers.get(id);
         if (selectedCipher == null) {
             CipherSuite c = null;
@@ -48,7 +38,6 @@ public class AESCBC256 {
             lastId = id;
             ciphers.put(id, c);
         }
-        return ciphers;
     }
 
     public static String generateFinalDecryptedData(String encodedInitialString) {
@@ -67,7 +56,6 @@ public class AESCBC256 {
     }
     
     public static String generateFinalEncryptedData(String originalString) {
-        EncryptionValidation.validateRules(originalString);
         String finalString = "";
         try {
             String encryptedString = AESCBC256.encrypt(originalString);

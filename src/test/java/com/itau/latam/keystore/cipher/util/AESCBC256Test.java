@@ -1,15 +1,11 @@
 package com.itau.latam.keystore.cipher.util;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
 
 import javax.crypto.NoSuchPaddingException;
 
 import org.hibernate.service.spi.ServiceException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,18 +15,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AESCBC256Test {
     
-    @Test
-    public void validateCipherSuiteInitializedWithFallbackStrategy() {
+    
+    private void setupTestKeys() {
         String secretKey = "foo";
         String salt = "bar";
         String id = "1";
-        Map<String, CipherSuite> ciphers = AESCBC256.validateCipherSuite(secretKey, salt, id);
-        assertNotNull(ciphers.get(id));
+        AESCBC256.validateCipherSuite(secretKey, salt, id);
     }
     
     
     @Test(expected = RuntimeException.class)
     public void expectingExceptionWhileTryingToDecryptButTheCipherWasntProperlyInitialized() {
+    	setupTestKeys();
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
         AESCBC256.generateFinalDecryptedData(encryptedData);
     }
@@ -46,14 +42,18 @@ public class AESCBC256Test {
     /////////////////////////////////////////////////////////////////////////////////////////
     @Test(expected = RuntimeException.class)
     public void expectingExceptionWhenIdToSearchDIffersFromIdInsideEncryptedData() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
+
+        String secretKey = "foo";
+        String salt = "bar";
+        String id = "2";
+        AESCBC256.validateCipherSuite(secretKey, salt, id);
+    	
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
-        AESCBC256.validateCipherSuite("foo", "bar", "2");
-        
         AESCBC256.generateFinalDecryptedData(encryptedData);
     }
     
     @Test(expected = RuntimeException.class)
-    public void expectingExceptionWhenSaltIsIncorret() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
+    public void expectingExceptionWhenSaltIsIncorrect() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
         AESCBC256.validateCipherSuite("jarvis", "bar", "1");
         
@@ -61,7 +61,7 @@ public class AESCBC256Test {
     }
     
     @Test(expected = RuntimeException.class)
-    public void expectingExceptionWhenKeyIsIncorret() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
+    public void expectingExceptionWhenKeyIsIncorrect() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
         AESCBC256.validateCipherSuite("foo", "jarvis", "1");
         
