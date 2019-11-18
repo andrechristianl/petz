@@ -5,7 +5,6 @@ import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
 
-import org.hibernate.service.spi.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,19 +67,4 @@ public class AESCBC256Test {
         AESCBC256.generateDecryptedData(encryptedData);
     }
     
-    /////////////////////////////////////////////////////////////////////////////////////////
-    //  encrypted-text -> TVE9PS4zaFBCcEhvNEFIREQzMzBGMkM3YTZ2VkFmd1lNUU1zZkVlZ2Via2loVVZ4YWlacVkzcTlEL1BmZmRGQkpTcDVtUFRMQ0lDSHhVMmZERHp0cjVaeU9MQT09
-    //
-    //  Solves to/for: 
-    //      key -> foo , 
-    //      salt" -> bar, 
-    //      clear-text -> 12345678901234567890123456789012345678901234567890123456
-    /////////////////////////////////////////////////////////////////////////////////////////
-    @Test(expected = ServiceException.class)
-    public void expectingExceptionWhenClearTextHas56OrMoreCharacters() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
-        String clearText = "12345678901234567890123456789012345678901234567890123456";
-        AESCBC256.validateCipherSuite("foo", "bar", "1");
-        
-        AESCBC256.generateEncryptedData(clearText);
-    }
 }

@@ -7,7 +7,6 @@ import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,9 +17,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class AESCBC156NegativeTest {
     
     
-    @Before
-    public void setUp() {
-        AESCBC256.validateCipherSuite("foo", "bar", "1");
+    private void setupTestKeys() {
+        String secretKey = "foo";
+        String salt = "bar";
+        String id = "1";
+        AESCBC256.validateCipherSuite(secretKey, salt, id);
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +35,7 @@ public class AESCBC156NegativeTest {
     @Test
     public void validateCorrectDecryption() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";    
-        AESCBC256.validateCipherSuite("foo", "bar", "1");
+        setupTestKeys();
         
         String result = AESCBC256.generateDecryptedData(encryptedData);
         assertEquals(result, "hello");
@@ -51,7 +52,7 @@ public class AESCBC156NegativeTest {
     @Test()
     public void validateCorrectEncryption() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         String clearText = "1234567890123456789012345678901234567890123456789012345";
-        AESCBC256.validateCipherSuite("foo", "bar", "1");
+        setupTestKeys();
         String result = AESCBC256.generateEncryptedData(clearText);
         
         assertEquals(result, "TVE9PS4zaFBCcEhvNEFIREQzMzBGMkM3YTZ2VkFmd1lNUU1zZkVlZ2Via2loVVZ4YWlacVkzcTlEL1BmZmRGQkpTcDVtZlR3Z1pEeXFjZXVSR2xiSHI1b3FJZz09");
