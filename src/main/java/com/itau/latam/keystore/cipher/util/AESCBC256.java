@@ -15,6 +15,9 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import static com.itau.latam.keystore.cipher.util.EncodingUtil.decodeFromBase64;
+import static com.itau.latam.keystore.cipher.util.EncodingUtil.encodeToBase64;
+
 public class AESCBC256 {
     private static final String DEFAULT_ID_CRIPT_SEPARATOR = ".";
     
@@ -103,13 +106,5 @@ public class AESCBC256 {
 
     private static String createFinalHashEncripted(String id, String encriptedString) throws UnsupportedEncodingException {
         return encodeToBase64(id + DEFAULT_ID_CRIPT_SEPARATOR + encriptedString);
-    }
-
-    public static String decodeFromBase64(String myStr) {
-        return new String(Base64.getDecoder().decode(myStr));
-    }
-
-    private static String encodeToBase64(String myStr) throws UnsupportedEncodingException {
-        return Base64.getEncoder().encodeToString(myStr.getBytes(StandardCharsets.UTF_8.name()));
     }
 }

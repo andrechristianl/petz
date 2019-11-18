@@ -1,4 +1,4 @@
-package com.itau.latam.keystore.cypher.util;
+package com.itau.latam.keystore.cipher.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
