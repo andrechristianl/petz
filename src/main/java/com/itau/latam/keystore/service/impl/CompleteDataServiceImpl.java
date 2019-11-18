@@ -29,7 +29,7 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         );
         
         completeDataDTO.stream().forEach(c -> {
-            String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
+            String encryptedData = AESCBC256.generateEncryptedData(c.getPlaintext());
             c.setEncryptted(encryptedData);
         });
         return completeDataDTO;
@@ -49,7 +49,7 @@ public class CompleteDataServiceImpl implements CompleteDataService {
                 String.valueOf(keyStore.getId())
             );
             
-            String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
+            String decryptedData = AESCBC256.generateDecryptedData(c.getEncryptted());
             c.setPlaintext(decryptedData);
         });
         return completeDataDTO;

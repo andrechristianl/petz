@@ -43,7 +43,7 @@ public class AESCBC256 {
         }
     }
 
-    public static String generateFinalDecryptedData(String encodedInitialString) {
+    public static String generateDecryptedData(String encodedInitialString) {
         String[] composedArray = generateComposedKey(encodedInitialString);
         String encodedId = composedArray[0];
         String encriptedData = composedArray[1];
@@ -58,7 +58,7 @@ public class AESCBC256 {
         return decryptedString;
     }
     
-    public static String generateFinalEncryptedData(String originalString) {
+    public static String generateEncryptedData(String originalString) {
         String finalString = "";
         try {
             String encryptedString = AESCBC256.encrypt(originalString);

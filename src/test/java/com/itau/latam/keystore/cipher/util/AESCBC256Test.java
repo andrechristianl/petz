@@ -28,7 +28,7 @@ public class AESCBC256Test {
     public void expectingExceptionWhileTryingToDecryptButTheCipherWasntProperlyInitialized() {
     	setupTestKeys();
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
-        AESCBC256.generateFinalDecryptedData(encryptedData);
+        AESCBC256.generateDecryptedData(encryptedData);
     }
     
     
@@ -49,7 +49,7 @@ public class AESCBC256Test {
         AESCBC256.validateCipherSuite(secretKey, salt, id);
     	
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
-        AESCBC256.generateFinalDecryptedData(encryptedData);
+        AESCBC256.generateDecryptedData(encryptedData);
     }
     
     @Test(expected = RuntimeException.class)
@@ -57,7 +57,7 @@ public class AESCBC256Test {
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
         AESCBC256.validateCipherSuite("jarvis", "bar", "1");
         
-        AESCBC256.generateFinalDecryptedData(encryptedData);
+        AESCBC256.generateDecryptedData(encryptedData);
     }
     
     @Test(expected = RuntimeException.class)
@@ -65,7 +65,7 @@ public class AESCBC256Test {
         String encryptedData = "TVE9PS5TcVdpUXYwcVVueFdacHh0SHNGM3B3PT0=";
         AESCBC256.validateCipherSuite("foo", "jarvis", "1");
         
-        AESCBC256.generateFinalDecryptedData(encryptedData);
+        AESCBC256.generateDecryptedData(encryptedData);
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +81,6 @@ public class AESCBC256Test {
         String clearText = "12345678901234567890123456789012345678901234567890123456";
         AESCBC256.validateCipherSuite("foo", "bar", "1");
         
-        AESCBC256.generateFinalEncryptedData(clearText);
+        AESCBC256.generateEncryptedData(clearText);
     }
 }
