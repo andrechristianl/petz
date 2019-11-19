@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f43e4246-7946-403a-bca0-65907a1922b0",
+		"_postman_id": "b874317a-64d0-4afc-b6da-0214a1cd08c6",
 		"name": "KS_Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,7 +33,7 @@
 			"name": "CompleteData",
 			"item": [
 				{
-					"name": "/encrypt",
+					"name": "/ppid/encrypt",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -48,12 +48,13 @@
 							"raw": "[\n    \t{\n        \"plaintext\": \"André\"\n    },\n    \t{\n        \"plaintext\": \"Igor\"\n    },\n        {\n        \"plaintext\": \"Paulo\"\n    },\n        {\n        \"plaintext\": \"Jarvis\"\n    },\n        {\n        \"plaintext\": \"Sueli\"\n    }\n]    "
 						},
 						"url": {
-							"raw": "http://{{server}}/encrypt",
+							"raw": "http://{{server}}/ppid/encrypt",
 							"protocol": "http",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
+								"ppid",
 								"encrypt"
 							]
 						}
@@ -61,7 +62,7 @@
 					"response": []
 				},
 				{
-					"name": "/decrypt",
+					"name": "/ppid/decrypt",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -76,12 +77,13 @@
 							"raw": "[\n    \t{\n        \"encryptted\": \"QW5kcsOp\"\n    },\n    \t{\n        \"encryptted\": \"SWdvcg==\"\n    },\n        {\n        \"encryptted\": \"UGF1bG8=\"\n    },\n        {\n        \"encryptted\": \"SmFydmlz\"\n    },\n        {\n        \"encryptted\": \"U3VlbGk=\"\n    }\n]    "
 						},
 						"url": {
-							"raw": "http://{{server}}/decrypt",
+							"raw": "http://{{server}}/ppid/decrypt",
 							"protocol": "http",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
+								"ppid",
 								"decrypt"
 							]
 						}
