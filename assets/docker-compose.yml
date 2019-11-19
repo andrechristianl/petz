@@ -17,10 +17,7 @@ services:
       interval: 50s
       timeout:  30s
       retries:  20
-    networks:
-      intra:
-        ipv4_address: 172.10.0.11
-               
+              
   openjdk:
     image: openjdk:8
     container_name: keystore-openjdk
@@ -29,20 +26,16 @@ services:
       mssql-server:
         condition: service_healthy
     ports:
-        - 8761:8761
+      - 8761:8761
     volumes:
       -  $PWD/0.0.1/itau-latam-0.0.1.jar:/home/itau-latam-0.0.1.jar
-    command: bash -c "java -jar /home/itau-latam-0.0.1.jar"
-    stdin_open: true
-    tty: true
+    command: ["sh", "-c", "java -jar /home/itau-latam-0.0.1.jar"]
     healthcheck:
-      test: ["CMD", "curl", "-f", "openjdk:8761"]
+      test: ["CMD", "curl", "-s", "-f", "http://127.0.0.1:8761"]
       interval: 50s
       timeout:  30s
-      retries: 20
-    networks:
-      intra:
-        ipv4_address: 172.10.0.12
+      retries:  6
+   
   
   healthcheck:
     image: appropriate/curl
@@ -54,28 +47,18 @@ services:
       -H \"Content-Type: application/json\"
       -X POST 
       -d '[{\"plaintext\":\"teste\"}]' 
-      \"http://10.3.56.38.:8080/encrypt\" 
+      \"http://10.3.56.38:8080/ppid/encrypt\" 
       -L | grep 'HTTP/1.1 200' || exit 1"
     depends_on:
-      mssql-server:
+      openjdk:
         condition: service_healthy
-    networks:
-      intra:
-        ipv4_address: 172.10.0.254
-  
+      
+      
   karate-server:
     image: qbarlas/karate-dsl
-    restart: always
+    restart: on-failure
     container_name: karate-container
     ports:
       - 15155:8080
-    networks:
-      intra:
-        ipv4_address: 172.10.0.13
-  
-networks:
-  intra:
-    ipam:
-      driver: bridge
-      config:
-        - subnet: 172.10.0.0/24
+    depends_on:
+      - healthcheck
