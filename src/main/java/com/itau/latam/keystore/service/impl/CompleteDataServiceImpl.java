@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itau.latam.keystore.cipher.util.AESCBC256;
+import com.itau.latam.cipher.util.AESCBC256;
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
 import com.itau.latam.keystore.repository.KeyStoreRepository;
 import com.itau.latam.keystore.repository.entity.KeyStore;
