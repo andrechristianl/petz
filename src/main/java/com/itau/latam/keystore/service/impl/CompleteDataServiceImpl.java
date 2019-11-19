@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itau.latam.keystore.cipher.util.AESCBC256;
+import com.itau.latam.cipher.util.AESCBC256;
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
 import com.itau.latam.keystore.repository.KeyStoreRepository;
 import com.itau.latam.keystore.repository.entity.KeyStore;
@@ -29,7 +29,7 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         );
         
         completeDataDTO.stream().forEach(c -> {
-            String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
+            String encryptedData = AESCBC256.generateEncryptedData(c.getPlaintext());
             c.setEncryptted(encryptedData);
         });
         return completeDataDTO;
@@ -49,7 +49,7 @@ public class CompleteDataServiceImpl implements CompleteDataService {
                 String.valueOf(keyStore.getId())
             );
             
-            String decryptedData = AESCBC256.generateFinalDecryptedData(c.getEncryptted());
+            String decryptedData = AESCBC256.generateDecryptedData(c.getEncryptted());
             c.setPlaintext(decryptedData);
         });
         return completeDataDTO;
