@@ -28,6 +28,68 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CompleteData",
+			"item": [
+				{
+					"name": "/encrypt",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \t{\n        \"plaintext\": \"André\"\n    },\n    \t{\n        \"plaintext\": \"Igor\"\n    },\n        {\n        \"plaintext\": \"Paulo\"\n    },\n        {\n        \"plaintext\": \"Jarvis\"\n    },\n        {\n        \"plaintext\": \"Sueli\"\n    }\n]    "
+						},
+						"url": {
+							"raw": "http://{{server}}/encrypt",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"encrypt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/decrypt",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \t{\n        \"encryptted\": \"QW5kcsOp\"\n    },\n    \t{\n        \"encryptted\": \"SWdvcg==\"\n    },\n        {\n        \"encryptted\": \"UGF1bG8=\"\n    },\n        {\n        \"encryptted\": \"SmFydmlz\"\n    },\n        {\n        \"encryptted\": \"U3VlbGk=\"\n    }\n]    "
+						},
+						"url": {
+							"raw": "http://{{server}}/decrypt",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"decrypt"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

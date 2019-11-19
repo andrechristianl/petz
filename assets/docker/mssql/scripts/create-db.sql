@@ -11,3 +11,14 @@ CREATE TABLE Stores.dbo.KeyStore (
 	created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP UNIQUE
 );
 GO
+
+
+INSERT INTO Stores.dbo.KeyStore (
+secret_key,
+salt
+)
+VALUES (
+'mssql-keystore-container',
+'mssql-keystore-container'
+);
+GO
