@@ -15,7 +15,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.itau.latam.keystore.validation.DecryptionValidation;
 import com.itau.latam.keystore.validation.EncryptionValidation;
 
 public class AESCBC256 {
