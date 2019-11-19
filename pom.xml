@@ -23,6 +23,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.itau.latam</groupId>
+            <artifactId>core-community</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- MSSQL Dependencies -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
