@@ -21,8 +21,7 @@ Feature: Codes Resources
     Given path 'ppid/encrypt'
     And request [{  plaintext: null }]
     When method POST    
-    Then status 200
-    And match response contains [{"encryptted":"TVE9PS55NDdzcGxrdDFQVnBBU3daemZMYTdnPT0="}] 
+    Then status 500
    
   Scenario: Test POST /ppid/decrypt | Status 200 | Decrypt
     Given path 'ppid/decrypt'
