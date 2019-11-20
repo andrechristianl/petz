@@ -1,7 +1,5 @@
 package com.itau.latam.keystore.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +11,20 @@ import com.itau.latam.keystore.service.KeyStoreService;
 
 @Service
 public class KeyStoreServiceImpl implements KeyStoreService{
-	@Autowired
-	private KeyStoreRepository keyTableRepository;
-	
-	
-	@Override
-	public List<KeyStoreDTO> findByDate() {
-		List<KeyStore> mainTable = this.keyTableRepository.findAllCreateDate();
-		List<KeyStoreDTO> mainTableDTO = FormatterServiceImpl.convertEntityToDTO( mainTable, KeyStoreDTO.class);
-		return  mainTableDTO;
-	}
+    @Autowired
+    private KeyStoreRepository keyTableRepository;
+    
+    @Override
+    public KeyStoreDTO findByDate() {
+        KeyStore mainTable = this.keyTableRepository.findLatestDate();
+        KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject( mainTable, KeyStoreDTO.class);
+        return mainTableDTO;
+    }
 
-	@Override
-	public KeyStoreDTO findById(int id) {
-		KeyStore mainTable = this.keyTableRepository.findById(id);
-		KeyStoreDTO mainTableDTO = FormatterServiceImpl.convertDTOToEntity(mainTable, KeyStoreDTO.class);
-		return mainTableDTO;
-	}
+    @Override
+    public KeyStoreDTO findById(int id) {
+        KeyStore mainTable = this.keyTableRepository.findById(id);
+        KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
+        return mainTableDTO;
+    }
 }

@@ -19,7 +19,7 @@ public class CompleteDataServiceImpl implements CompleteDataService {
 
     @Override
     public List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeDataDTO) {
-        KeyStore keyStore = this.keyStoreRepository.findAllCreateDate().get(0);
+        KeyStore keyStore = this.keyStoreRepository.findLatestDate();
         AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
         try {
             completeDataDTO.stream().forEach(c -> {
