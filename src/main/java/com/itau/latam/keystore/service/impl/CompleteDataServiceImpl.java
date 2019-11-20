@@ -2,6 +2,7 @@ package com.itau.latam.keystore.service.impl;
 
 import java.util.List;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,11 @@ public class CompleteDataServiceImpl implements CompleteDataService {
     @Override
     public List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeDataDTO) {
         completeDataDTO.stream().forEach(c -> {
-            String idKey = AESCBC256.findIdKeyFromEncriptedData(c.getEncryptted());
-            
+            String encryptedText = c.getEncryptted();
+            if (encryptedText == null || encryptedText.isEmpty()) {
+                throw new ServiceException("An issue has been raised because one or more of the provided encrypted fields were either null or empty");
+            }
+            String idKey = AESCBC256.findIdKeyFromEncriptedData(encryptedText);
             KeyStore keyStore = keyStoreRepository.findById(Integer.parseInt(idKey));
             keyStore = keyStore != null ? keyStore : new KeyStore();
             

@@ -77,5 +77,54 @@ networks:
   intra:
     ipam:
       driver: bridge
+=======
+  openjdk:
+    image: openjdk:8
+    container_name: keystore-openjdk
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://172.10.0.11;databaseName=Stores
+      - SPRING_DATASOURCE_USERNAME=SA
+      - SPRING_DATASOURCE_PASSWORD=Itau@2019
+    depends_on:
+      mssql-server:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+    volumes:
+      - $PWD/0.0.1/itau-latam-keystore-0.0.1.jar:/home/itau-latam-keystore-0.0.1.jar
+    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-keystore-0.0.1.jar"]
+    healthcheck:
+      test: ["CMD", "sh", "-c", "sleep 45 && curl 
+                                  --silent
+                                  -i
+                                  -H \"Content-Type: application/json\"
+                                  -X POST 
+                                  -d '[{\"plaintext\":\"teste\"}]' 
+                                  \"http://172.10.0.12:8080/ppid/encrypt\" 
+                                  -L | grep 'HTTP/1.1 200' || exit 1"]
+      interval: 50s
+      timeout:  30s
+      retries:  10
+    networks:
+      intra:
+        ipv4_address: 172.10.0.12
+    
+  karate-server:
+    image: qbarlas/karate-dsl
+    restart: on-failure
+    container_name: karate-container
+    ports:
+      - 15155:8080
+    depends_on:
+      - openjdk
+    networks:
+      intra:
+        ipv4_address: 172.10.0.13
+  
+networks:
+  intra:
+    driver: bridge
+    ipam:
+>>>>>>> refs/remotes/origin/migration
       config:
         - subnet: 172.10.0.0/24
