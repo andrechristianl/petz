@@ -11,6 +11,7 @@ import com.itau.latam.keystore.service.KeyStoreService;
 
 @Service
 public class KeyStoreServiceImpl implements KeyStoreService{
+<<<<<<< HEAD
 	@Autowired
 	private KeyStoreRepository keyTableRepository;
 	
@@ -20,11 +21,31 @@ public class KeyStoreServiceImpl implements KeyStoreService{
 		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject( mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
+=======
+    @Autowired
+    private KeyStoreRepository keyTableRepository;
+    
+    @Override
+    public KeyStoreDTO findByDate() {
+        KeyStore mainTable = this.keyTableRepository.findLatestDate();
+        KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject( mainTable, KeyStoreDTO.class);
+        return mainTableDTO;
+    }
+>>>>>>> refs/remotes/origin/bdd
 
+<<<<<<< HEAD
 	@Override
 	public KeyStoreDTO findById(int id) {
 		KeyStore mainTable = this.keyTableRepository.findById(id);
 		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
+=======
+    @Override
+    public KeyStoreDTO findById(int id) {
+        KeyStore mainTable = this.keyTableRepository.findById(id);
+        KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
+        return mainTableDTO;
+    }
+>>>>>>> refs/remotes/origin/bdd
 }

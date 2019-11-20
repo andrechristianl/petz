@@ -1,26 +1,64 @@
-version: "2.1"
-services:      
-  ubuntu:
-    image: ubuntu
-    depends_on:
-      mssql-server:
-        condition: service_healthy
-
+version: "2.4"
+services:    
+    
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    restart: always
     container_name: mssql-keystore-container
+    restart: always
     volumes:
-      - ./docker/mssql/scripts:/tmp/scripts
+      - $PWD/docker/mssql/scripts:/tmp/scripts    
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Itau@2019
     ports:
       - 1433:1433
-    command: 
-      - /tmp/scripts/launch-db.sh
     healthcheck:
-      test: ["CMD", "bash",  "/tmp/scripts/select-db.sh"]
-      interval: 30s
+      test: ["CMD", "bash", "/tmp/scripts/launch-db.sh"]
+      interval: 50s
       timeout:  30s
-      retries:  50
+      retries:  20
+              
+  openjdk:
+    image: openjdk:8
+    container_name: keystore-openjdk
+    restart: always
+    depends_on:
+      mssql-server:
+        condition: service_healthy
+    ports:
+      - 8761:8761
+    volumes:
+      -  $PWD/0.0.1/itau-latam-0.0.1.jar:/home/itau-latam-0.0.1.jar
+    command: ["sh", "-c", "java -jar /home/itau-latam-0.0.1.jar"]
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-f", "http://127.0.0.1:8761"]
+      interval: 50s
+      timeout:  30s
+      retries:  6
+   
+  
+  healthcheck:
+    image: appropriate/curl
+    container_name: keystore-healthcheck
+    entrypoint: >
+      /bin/sh -c "sleep 45 && curl 
+      --silent
+      -i
+      -H \"Content-Type: application/json\"
+      -X POST 
+      -d '[{\"plaintext\":\"teste\"}]' 
+      \"http://10.3.56.38:8080/ppid/encrypt\" 
+      -L | grep 'HTTP/1.1 200' || exit 1"
+    depends_on:
+      openjdk:
+        condition: service_healthy
+      
+      
+  karate-server:
+    image: qbarlas/karate-dsl
+    restart: on-failure
+    container_name: karate-container
+    ports:
+      - 15155:8080
+    depends_on:
+      - healthcheck

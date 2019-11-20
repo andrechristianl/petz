@@ -16,6 +16,7 @@ import com.itau.latam.keystore.model.dto.CompleteDataDTO;
 import com.itau.latam.keystore.service.CompleteDataService;
 
 @RestController
+@RequestMapping(value = "/ppid")
 public class CompleteDataController {
 	
 	@Autowired

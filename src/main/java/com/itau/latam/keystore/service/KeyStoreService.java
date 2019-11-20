@@ -6,5 +6,9 @@ public interface KeyStoreService {
 	
 	KeyStoreDTO findById(int id);
 
+<<<<<<< HEAD
 	KeyStoreDTO findByDate();
+=======
+    KeyStoreDTO findByDate();
+>>>>>>> refs/remotes/origin/bdd
 }
