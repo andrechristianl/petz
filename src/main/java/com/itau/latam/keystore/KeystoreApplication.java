@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan({
     "com.itau.latam.config",
+    "com.itau.latam.core.exception",
     "com.itau.latam.keystore.controller",
     "com.itau.latam.keystore.service",
     "com.itau.latam.keystore.repository"
