@@ -40,7 +40,8 @@ public class CompleteDataServiceImpl implements CompleteDataService {
         completeDataDTO.stream().forEach(c -> {
             String idKey = AESCBC256.findIdKeyFromEncriptedData(c.getEncryptted());
             
-            KeyStore keyStore = keyStoreRepository.findById(Integer.parseInt(idKey));
+            int parsedKey = idKey.isEmpty() || idKey == null ? 0 : Integer.parseInt(idKey);
+            KeyStore keyStore = keyStoreRepository.findById(parsedKey);
             keyStore = keyStore != null ? keyStore : new KeyStore();
             
             AESCBC256.validateCipherSuite(
