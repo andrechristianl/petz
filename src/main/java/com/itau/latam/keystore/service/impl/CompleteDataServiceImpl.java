@@ -20,7 +20,6 @@ public class CompleteDataServiceImpl implements CompleteDataService {
     @Override
     public List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeDataDTO) {
         KeyStore keyStore = this.keyStoreRepository.findLatestDate();
-<<<<<<< HEAD
         keyStore = keyStore != null ? keyStore : new KeyStore();
 
         AESCBC256.validateCipherSuite(
@@ -34,24 +33,6 @@ public class CompleteDataServiceImpl implements CompleteDataService {
             c.setEncryptted(encryptedData);
         });
         return completeDataDTO;
-=======
-        AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
-        try {
-            completeDataDTO.stream().forEach(c -> {
-                try {
-                    String encryptedData = AESCBC256.generateFinalEncryptedData(c.getPlaintext());
-                    
-                    c.setEncryptted(encryptedData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            return completeDataDTO;
-        } catch (Exception e) {
-            System.out.println("Error while encrypting: " + e.toString());
-            return null;
-        }
->>>>>>> refs/remotes/origin/bdd
     }
 
     @Override
