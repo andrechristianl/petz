@@ -30,3 +30,4 @@ while  true; do
     fi
     echo -e "$(date +%F\ %T.%N) \t ############ Checking Table."
 done
+while true; do sleep 1000; done
