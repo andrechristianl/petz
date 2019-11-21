@@ -35,7 +35,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - $PWD/0.0.1/itau-latam-keystore-0.0.1.jar:/home/itau-latam-keystore-0.0.1.jar
+      - ../target/itau-latam-keystore-0.0.1.jar:/home/itau-latam-keystore-0.0.1.jar
     entrypoint: ["sh", "-c", "java -jar /home/itau-latam-keystore-0.0.1.jar"]
     healthcheck:
       test: ["CMD", "sh", "-c", "curl 
