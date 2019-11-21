@@ -1,6 +1,6 @@
 Feature: Codes Resources  
   Background:    
-     * url urlBase
+     * url 'http://172.10.0.12:8080'
 	 * header Accept = 'application/json'    
     
   Scenario: Test POST /ppid/encrypt | Status 200 | Encrypt
