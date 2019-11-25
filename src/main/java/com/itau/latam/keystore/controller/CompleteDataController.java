@@ -25,12 +25,16 @@ public class CompleteDataController {
 	@ResponseBody
 	@RequestMapping(value = "/encrypt", method = POST)
 	public List<CompleteDataDTO> encrypt(@RequestBody List<CompleteDataDTO> completeData) throws ConstraintViolationException, ServiceException{
+		//TODO: Fazer validação da entrada da String de texto p/
+		//      o Google analytics (estimado máximo 56 caracteres)
 		return completeDataService.encryptData(completeData); 
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/decrypt", method = POST)
 	public List<CompleteDataDTO> decrypt(@RequestBody List<CompleteDataDTO> completeData) throws ConstraintViolationException, ServiceException{
+		//TODO: Fazer validação da entrada da String de texto p/
+		//      o Google analytics (estimado máximo 125 caracteres)
 		return completeDataService.decryptData(completeData); 
 	}
 
