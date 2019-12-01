@@ -57,8 +57,8 @@ services:
     image: qbarlas/karate-dsl
     container_name: karate-container
     volumes:
-      - $PWD/bdd/features:/src/features
-      - $PWD/bdd/reports:/src/target
+      - ./bdd/features:/src/features
+      - ./bdd/reports:/src/target
     ports:
       - 15155:8080
     depends_on:
