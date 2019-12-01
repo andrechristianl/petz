@@ -72,7 +72,7 @@ docker run \
   --rm \
   --name mssql-keystore-container \
   -e ACCEPT_EULA=Y \
-  -v `pwd`/assets/docker/mssql/scripts:/tmp/scripts \
+  -v $PWD/assets/docker/mssql/scripts:/tmp/scripts \
   -e "SA_PASSWORD=Itau@2019" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
@@ -105,8 +105,8 @@ to run this service separately:
 docker run \
   --rm \
   --name karate-container \
-  -v ${WORKSPACE}/assets/bdd/features:/tmp/features \
-  -v ${WORKSPACE}/assets/bdd/reports:/tmp/reports \
+  -v $PWD/assets/bdd/features:/tmp/features \
+  -v $PWD/assets/bdd/reports:/tmp/reports \
   -p 15155:8080 \
   qbarlas/karate-dsl
 ```
