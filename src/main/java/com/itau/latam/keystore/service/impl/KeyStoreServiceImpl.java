@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itau.latam.cipher.util.AESCBC256;
-import com.itau.latam.core.service.impl.FormatterServiceImpl;
+import com.itau.latam.core.utils.ObjectDataConverterUtil;
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
 import com.itau.latam.keystore.model.dto.KeyStoreDTO;
 import com.itau.latam.keystore.repository.KeyStoreRepository;
@@ -28,14 +28,14 @@ public class KeyStoreServiceImpl implements KeyStoreService {
 	@Override
 	public KeyStoreDTO findByDate() {
 		KeyStore mainTable = this.keyTableRepository.findLatestDate();
-		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
+		KeyStoreDTO mainTableDTO = ObjectDataConverterUtil.copyObject(mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
 
 	@Override
 	public KeyStoreDTO findById(int id) {
 		KeyStore mainTable = this.keyTableRepository.findById(id);
-		KeyStoreDTO mainTableDTO = FormatterServiceImpl.copyObject(mainTable, KeyStoreDTO.class);
+		KeyStoreDTO mainTableDTO = ObjectDataConverterUtil.copyObject(mainTable, KeyStoreDTO.class);
 		return mainTableDTO;
 	}
 
