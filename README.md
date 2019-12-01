@@ -4,7 +4,7 @@
 
 #### How to get the project source
 - Git:
-Temporary: https://github.com/guiban/itau-latam-keystore
+Just clone this project in your local development folder
 
 ## Prerequisites
 - JDK 1.8
@@ -12,18 +12,61 @@ Temporary: https://github.com/guiban/itau-latam-keystore
 - Docker
 
 
+### Running application
+
+1- Compile application:
+
+```
+	mvn clean install
+```
+
+<br/>
+
+2 - Configure spring boot properties modifying the property file:
+
+```
+/src/main/resources/application.properties
+```
+
+<br/>
+
+3 -  Run database container
+<br/><br/>
+If you are ruuning this application locally its possible run the MSSQL database in a container, please search in this document by "Running MSSQL database as a container" in Running the Services section.
+
+<br/>
+
+4 - Run java application   
+<br/>
+With all configurated, just type:
+
+```
+java -jar ./target/itau-latam-ppid-encryptor-*.jar
+```
+
+<br/>
+<br/>
+
+5 - Import config files to Postman:
+Import files located in assets/postman to your Postman IDE
+
+<br/>
+<br/>
+<br/>
+
+
+
 ## Running the Services
 > Let **${WORKSPACE}** be the path pointing to this project's source
   - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//itau//areas//ms//work//itau-latam-keystore
   - Ex.: In Unix environments, **${WORKSPACE}** -> /home/fgbelet/areas/ms/work/itau-latam-keystore
 
-___
-### This Service ~~
-> This is the service that this repository hosts, informally called *encryptor service*
-___
-### MSSQL ~~
-> This is the external Database this service consumes 
+
+
+### Running MSSQL database as a container service ~~
+This is the external Database this service consumes 
 For Unix based environments:
+
 ```bash
 docker run \
   --rm \
@@ -35,7 +78,8 @@ docker run \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
 
->For Windows based environments:
+For Windows based environments:
+
 ```bash
 docker run \
   --rm \
@@ -47,9 +91,16 @@ docker run \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
 
-___
-### Karate (BDD) ~~
-> This is the external BDD service to be fed  with the desided **.feature** files
+
+
+### Running Cumcumber/Karate(BDD) as a container service ~~
+
+This is the external BDD service to be fed  with the desided **.feature** files
+
+Karate container service is a part of docker-compose stack created to run all integration tests.
+
+to run this service separately:
+
 ```bash
 docker run \
   --rm \
@@ -59,3 +110,18 @@ docker run \
   -p 15155:8080 \
   qbarlas/karate-dsl
 ```
+
+
+
+### Running BDD tests using Docker compose ~~
+
+Access folder ./assets and type:
+
+```
+	docker-compose up
+```
+
+This BDD engine will read integration tests from folder ./assets/bdd/features
+
+After all feature tests are executed. Status reports can be collected in ./bdd/reports folder.
+
