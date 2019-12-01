@@ -6,7 +6,7 @@ echo -e "$(date +%F\ %T.%N) \t ############ Starting SQL Server entrypoint..."
 echo -e "$(date +%F\ %T.%N) \t ############ Server has started. Creating database..."
 
 /opt/mssql-tools/bin/sqlcmd \
-	-S 172.10.0.11 \
+	-S 0.0.0.0 \
 	-U sa \
 	-P Itau@2019 \
 	-i /tmp/scripts/create-db.sql
@@ -17,7 +17,7 @@ echo -e "$(date +%F\ %T.%N) \t ############ Check populated table."
 
 while  true; do
 /opt/mssql-tools/bin/sqlcmd \
-	-S 172.10.0.11 \
+	-S 0.0.0.0 \
 	-U sa \
 	-P Itau@2019 \
 	-l 1 \
@@ -30,3 +30,4 @@ while  true; do
     fi
     echo -e "$(date +%F\ %T.%N) \t ############ Checking Table."
 done
+while true; do sleep 1000; done
