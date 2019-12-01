@@ -1,13 +1,15 @@
-package com.itau.latam.keystore.service;
+package com.itau.latam.keystore.service.business;
 
 import java.util.List;
+import java.util.Map;
 
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
+import com.itau.latam.keystore.model.dto.KeyStoreDTO;
 
-public interface CompleteDataService {
+public interface EncryptionDataBusinessService {
 
-	List<CompleteDataDTO> encryptData(List<CompleteDataDTO> completeData);
+	List<CompleteDataDTO> encryptListData(List<CompleteDataDTO> completeData, KeyStoreDTO keyStore);
 
-	List<CompleteDataDTO> decryptData(List<CompleteDataDTO> completeData);
+	List<CompleteDataDTO> decryptListData(List<CompleteDataDTO> completeDataDTO, Map<Integer, KeyStoreDTO> mapKeys);
 
 }
