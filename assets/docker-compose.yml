@@ -6,16 +6,17 @@ services:
     container_name: mssql-keystore-container
     restart: always
     volumes:
-      - $PWD/docker/mssql/scripts:/tmp/scripts    
+      - ./docker/mssql/scripts:/tmp/scripts    
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Itau@2019
     ports:
       - 1433:1433
+    entrypoint: ["sh", "-c", "/tmp/scripts/launch-db.sh"]
     healthcheck:
-      test: ["CMD", "bash", "/tmp/scripts/launch-db.sh"]
-      interval: 15s
-      timeout:  10s
+      test: ["CMD", "bash", "/tmp/scripts/select-db.sh"]
+      interval: 5s
+      timeout:  30s
       retries:  10
     networks:
       intra:
@@ -35,8 +36,8 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../target/itau-latam-ppid-encryptor-*.jar:/home/itau-latam-ppid-encryptor.jar
-    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-ppid-encryptor-0.0.1.jar"]
+      - ./../target/:/home/
+    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-ppid-encryptor*.jar"]
     healthcheck:
       test: ["CMD", "sh", "-c", "curl 
                                   --silent
@@ -46,9 +47,7 @@ services:
                                   -d '[{\"plaintext\":\"teste\"}]' 
                                   \"http://172.10.0.12:8080/ppid/encrypt\" 
                                   -L | grep 'HTTP/1.1 200' || exit 1"]
-      interval: 10s
-      timeout:  5s
-      retries:  2
+
     networks:
       intra:
         ipv4_address: 172.10.0.12
@@ -57,8 +56,9 @@ services:
     image: qbarlas/karate-dsl
     container_name: karate-container
     volumes:
-      - $PWD/bdd/features:/src/features
-      - $PWD/bdd/reports:/src/target
+      - ./bdd/karate-config.js:/src/karate-config.js
+      - ./bdd/features:/src/features
+      - ./bdd/reports:/src/target
     ports:
       - 15155:8080
     depends_on:
