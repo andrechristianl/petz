@@ -101,15 +101,24 @@ Karate container service is a part of docker-compose stack created to run all in
 
 to run this service separately:
 
+
+```
+IP_HOSTNAME=$(hostname -I | awk '{print $1}')
+```
+
 ```bash
 docker run \
   --rm \
   --name karate-container \
+  -e IP_HOSTNAME=$IP_HOSTNAME \
+  -v `pwd`/assets/bdd/karate-config.js/:/src/karate-config.js \
   -v `pwd`/assets/bdd/features/:/src/features \
   -v `pwd`/assets/bdd/reports:/src/reports \
   -p 15155:8080 \
   qbarlas/karate-dsl
 ```
+
+To run the BDD tests for this project its necessary to execute docker to run the database. See (<b>Running MSSQL database as a container service</b>)
 
 
 
@@ -118,7 +127,7 @@ docker run \
 Access folder ./assets and type:
 
 ```
-	docker-compose up
+sudo IP_HOSTNAME=$(hostname -I | awk '{print $1}') docker-compose up
 ```
 
 This BDD engine will read integration tests from folder ./assets/bdd/features
@@ -129,6 +138,6 @@ After all feature tests are executed. Status reports can be collected in ./bdd/r
 Running on CI pipeline:
 
 ```
-docker-compose up --abort-on-container-exit
+sudo IP_HOSTNAME=$(hostname -I | awk '{print $1}') docker-compose up --abort-on-container-exit
 ```
 

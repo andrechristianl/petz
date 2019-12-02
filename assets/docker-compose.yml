@@ -55,6 +55,8 @@ services:
   karate-server:
     image: qbarlas/karate-dsl
     container_name: karate-container
+    environment:
+      - IP_HOSTNAME=$IP_HOSTNAME
     volumes:
       - ./bdd/karate-config.js:/src/karate-config.js
       - ./bdd/features:/src/features
@@ -64,6 +66,7 @@ services:
     depends_on:
       openjdk:
         condition: service_healthy
+    entrypoint: ["sh", "-c", "java -jar -Dkarate.ip=$IP_HOSTNAME /src/karate.jar features/"] 
     networks:
       intra:
         ipv4_address: 172.10.0.13
