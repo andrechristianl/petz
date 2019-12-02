@@ -103,6 +103,11 @@ to run this service separately:
 
 
 ```
+Unix
+IP_HOSTNAME=$(hostname -I | awk '{print $1}')
+```
+```
+IOS
 IP_HOSTNAME=$(ipconfig getifaddr en0)
 ```
 
@@ -127,6 +132,11 @@ To run the BDD tests for this project its necessary to execute docker to run the
 Access folder ./assets and type:
 
 ```
+Unix
+sudo IP_HOSTNAME=$(hostname -I | awk '{print $1}') docker-compose up
+```
+```
+IOS
 sudo IP_HOSTNAME=$(ipconfig getifaddr en0) docker-compose up
 ```
 
@@ -138,6 +148,11 @@ After all feature tests are executed. Status reports can be collected in ./bdd/r
 Running on CI pipeline:
 
 ```
+Unix
+sudo IP_HOSTNAME=$(hostname -I | awk '{print $1}') docker-compose up --abort-on-container-exit
+```
+```
+IOS
 sudo IP_HOSTNAME=$(ipconfig getifaddr en0) docker-compose up --abort-on-container-exit
 ```
 
