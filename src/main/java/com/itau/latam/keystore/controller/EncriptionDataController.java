@@ -13,25 +13,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itau.latam.keystore.model.dto.CompleteDataDTO;
-import com.itau.latam.keystore.service.CompleteDataService;
+import com.itau.latam.keystore.service.impl.KeyStoreServiceImpl;
 
 @RestController
 @RequestMapping(value = "/ppid")
-public class CompleteDataController {
+public class EncriptionDataController {
 	
 	@Autowired
-	private CompleteDataService completeDataService;
+	private KeyStoreServiceImpl keyStoreService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/encrypt", method = POST)
 	public List<CompleteDataDTO> encrypt(@RequestBody List<CompleteDataDTO> completeData) throws ConstraintViolationException, ServiceException{
-		return completeDataService.encryptData(completeData); 
+		//TODO: Fazer validação da entrada da String de texto p/
+		//      o Google analytics (estimado máximo 56 caracteres)
+		return keyStoreService.encryptListData(completeData); 
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/decrypt", method = POST)
 	public List<CompleteDataDTO> decrypt(@RequestBody List<CompleteDataDTO> completeData) throws ConstraintViolationException, ServiceException{
-		return completeDataService.decryptData(completeData); 
+		//TODO: Fazer validação da entrada da String de texto p/
+		//      o Google analytics (estimado máximo 125 caracteres)
+		return keyStoreService.decryptListData(completeData); 
 	}
+
+	
 
 }

@@ -12,75 +12,20 @@ services:
       - SA_PASSWORD=Itau@2019
     ports:
       - 1433:1433
+    entrypoint: ["sh", "-c", "/tmp/scripts/launch-db.sh"]
     healthcheck:
-      test: ["CMD", "bash", "/tmp/scripts/launch-db.sh"]
-      interval: 50s
+      test: ["CMD", "bash", "/tmp/scripts/select-db.sh"]
+      interval: 5s
       timeout:  30s
-      retries:  20
+      retries:  10
     networks:
       intra:
         ipv4_address: 172.10.0.11
     
-  
-               
   openjdk:
     image: openjdk:8
     container_name: keystore-openjdk
-    depends_on:
-      mssql-server:
-        condition: service_healthy
-    ports:
-        - 8761:8761
-    volumes:
-      -  /Users/andrechristian/git/itau-latam-keystore/0.0.1/itau-latam-keystore-0.0.1.jar:/home/itau-latam-keystore-0.0.1.jar
-    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-keystore-0.0.1.jar"]
-    healthcheck:
-      test: ["CMD", "sh", "172.10.0.12:8761"]
-      interval: 50s
-      timeout:  30s
-      retries: 20
-    networks:
-      intra:
-        ipv4_address: 172.10.0.12
-  
-  healthcheck:
-    image: appropriate/curl
-    container_name: keystore-healthcheck
-    entrypoint: >
-      /bin/sh -c "sleep 45 && curl 
-      --silent
-      -i
-      -H \"Content-Type: application/json\"
-      -X POST 
-      -d '[{\"plaintext\":\"teste\"}]' 
-      \"http://10.3.56.38:8080/encrypt\" 
-      -L | grep 'HTTP/1.1 200' || exit 1"
-    depends_on:
-      mssql-server:
-        condition: service_healthy
-    networks:
-      intra:
-        ipv4_address: 172.10.0.254
-  
-  karate-server:
-    image: qbarlas/karate-dsl
-    container_name: karate-container
-    ports:
-      - 15155:8080
-    networks:
-      intra:
-        ipv4_address: 172.10.0.13
-    
-    
-  
-networks:
-  intra:
-    ipam:
-      driver: bridge
-=======
-  openjdk:
-    image: openjdk:8
-    container_name: keystore-openjdk
+    restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:sqlserver://172.10.0.11;databaseName=Stores
       - SPRING_DATASOURCE_USERNAME=SA
@@ -91,10 +36,10 @@ networks:
     ports:
       - 8080:8080
     volumes:
-      - $PWD/0.0.1/itau-latam-keystore-0.0.1.jar:/home/itau-latam-keystore-0.0.1.jar
-    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-keystore-0.0.1.jar"]
+      - ./../target/:/home/
+    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-ppid-encryptor*.jar"]
     healthcheck:
-      test: ["CMD", "sh", "-c", "sleep 45 && curl 
+      test: ["CMD", "sh", "-c", "curl 
                                   --silent
                                   -i
                                   -H \"Content-Type: application/json\"
@@ -102,29 +47,33 @@ networks:
                                   -d '[{\"plaintext\":\"teste\"}]' 
                                   \"http://172.10.0.12:8080/ppid/encrypt\" 
                                   -L | grep 'HTTP/1.1 200' || exit 1"]
-      interval: 50s
-      timeout:  30s
-      retries:  10
+
     networks:
       intra:
         ipv4_address: 172.10.0.12
     
   karate-server:
     image: qbarlas/karate-dsl
-    restart: on-failure
     container_name: karate-container
+    environment:
+      - IP_HOSTNAME=$IP_HOSTNAME
+    volumes:
+      - ./bdd/features:/src/features
+      - ./bdd/karate-config.js:/src/assets/bdd/karate-config.js
+      - ./bdd/reports:/src/target
     ports:
       - 15155:8080
     depends_on:
-      - openjdk
+      openjdk:
+        condition: service_healthy
+    entrypoint: ["sh", "-c", "java -jar -Dkarate.ip=$IP_HOSTNAME /src/karate.jar features/"] 
     networks:
       intra:
         ipv4_address: 172.10.0.13
-  
+      
 networks:
   intra:
     driver: bridge
     ipam:
->>>>>>> refs/remotes/origin/migration
       config:
         - subnet: 172.10.0.0/24

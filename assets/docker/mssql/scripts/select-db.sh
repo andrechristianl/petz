@@ -1,9 +1,12 @@
-#!/bin/bash
+#!/bin/sh
+# select-db.sh
+
+echo -e "$(date +%F\ %T.%N) \t ############ Starting SQL Server..."
 
 /opt/mssql/bin/sqlservr &
 
 /opt/mssql-tools/bin/sqlcmd \
-	-S 127.0.0.1 \
+	-S 0.0.0.0 \
 	-U sa \
 	-P Itau@2019 \
 	-l 1 \
