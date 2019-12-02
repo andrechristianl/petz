@@ -1,6 +1,6 @@
 Feature: Codes Resources  
   Background:    
-     * def configBase = call read('file:/src/karate-config.js')
+     * def configBase = call read('file:./assets/bdd/karate-config.js')
      * print configBase
      * url configBase['urlBase']
 	 * header Accept = 'application/json'    

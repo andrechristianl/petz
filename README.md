@@ -111,7 +111,7 @@ docker run \
   --rm \
   --name karate-container \
   -e IP_HOSTNAME=$IP_HOSTNAME \
-  -v `pwd`/assets/bdd/karate-config.js/:/src/karate-config.js \
+  -v `pwd`/assets/bdd/karate-config.js/:/src/assets/bdd/karate-config.js \
   -v `pwd`/assets/bdd/features/:/src/features \
   -v `pwd`/assets/bdd/reports:/src/reports \
   -p 15155:8080 \
