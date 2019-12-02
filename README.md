@@ -93,7 +93,7 @@ docker run \
 
 
 
-### Running Cumcumber/Karate(BDD) as a container service ~~
+### Running Cucumber/Karate(BDD) as a container service ~~
 
 This is the external BDD service to be fed  with the desided **.feature** files
 
