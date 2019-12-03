@@ -20,7 +20,12 @@ public class EncryptionDataBusinessServiceImpl implements EncryptionDataBusiness
 		AESCBC256.validateCipherSuite(keyStore.getSecretKey(), keyStore.getSalt(), String.valueOf(keyStore.getId()));
 
 		completeDataDTO.stream().forEach(c -> {
+			String encrypttedText = c.getPlaintext();
+			if ((encrypttedText == null) || (encrypttedText.isEmpty())) {
+                throw new ServiceException("An issue has been raised because one or more of the provided encrypted fields were either null or empty");
+            }
 			String encryptedData = AESCBC256.generateEncryptedData(c.getPlaintext());
+			
 			c.setEncryptted(encryptedData);
 		});
 		return completeDataDTO;
