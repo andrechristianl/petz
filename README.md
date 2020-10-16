@@ -70,10 +70,10 @@ For Unix based environments:
 ```bash
 docker run \
   --rm \
-  --name mssql-Petz-container \
+  --name mssql-container \
   -e ACCEPT_EULA=Y \
   -v `pwd`/assets/docker/mssql/scripts:/tmp/scripts \
-  -e "SA_PASSWORD=Petz@2019" \
+  -e "SA_PASSWORD=Petz@2020" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
@@ -83,10 +83,10 @@ For Windows based environments:
 ```bash
 docker run \
   --rm \
-  --name mssql-Petz-container \
+  --name mssql-container \
   -e ACCEPT_EULA=Y \
   -v ${WORKSPACE}//assets//docker//mssql//scripts:/tmp/scripts \
-  -e "SA_PASSWORD=Petz@2019" \
+  -e "SA_PASSWORD=Petz@2020" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
