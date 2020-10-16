@@ -55,7 +55,6 @@ Import files located in assets/postman to your Postman IDE
 <br/>
 
 
-
 ## Running the Services
 > Let **${WORKSPACE}** be the path pointing to this project's source
   - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//areas//ms//work//Petz
