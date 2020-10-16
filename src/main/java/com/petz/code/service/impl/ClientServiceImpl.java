@@ -26,7 +26,8 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public void updateClient(int entryId, ClientDTO clientDTO) {
 		ClientValidation.validateRules(clientDTO);
-		Client client = this.clientRepository.findById(entryId);
+		clientDTO.setId(entryId);
+		Client client = ObjectDataConverterUtil.copyObject(clientDTO, Client.class);
 		this.clientRepository.save(client);
 	}
 

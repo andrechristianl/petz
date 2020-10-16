@@ -20,6 +20,6 @@ CREATE TABLE Petz.dbo.Pet (
 	name varchar(100) NOT NULL ,
 	age varchar(100) NOT NULL ,
 	breed varchar(100) NOT NULL ,
-	note varchar(2) NOT NULL 
+	note varchar(500) NOT NULL 
 );
 GO
