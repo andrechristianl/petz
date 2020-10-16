@@ -1,35 +1,45 @@
-version: "2.4"
-services:    
-    
+version: "2.1"
+services:      
+  ubuntu:
+    image: ubuntu
+    container_name: ubuntu
+    depends_on:
+      mssql-server:
+        condition: service_healthy
+    networks:
+      intra:
+        ipv4_address: 172.10.0.10    
+
   mssql-server:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: mssql-keystore-container
     restart: always
+    container_name: mssql-container
     volumes:
       - ./docker/mssql/scripts:/tmp/scripts    
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Itau@2019
+      - SA_PASSWORD=Petz@2020
     ports:
       - 1433:1433
-    entrypoint: ["sh", "-c", "/tmp/scripts/launch-db.sh"]
+    command: 
+      - /tmp/scripts/launch-db.sh
     healthcheck:
-      test: ["CMD", "bash", "/tmp/scripts/select-db.sh"]
-      interval: 5s
+      test: ["CMD", "bash",  "/tmp/scripts/select-db.sh"]
+      interval: 30s
       timeout:  30s
-      retries:  10
+      retries:  50
     networks:
       intra:
         ipv4_address: 172.10.0.11
-    
+        
   openjdk:
     image: openjdk:8
-    container_name: keystore-openjdk
+    container_name: openjdk
     restart: always
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:sqlserver://172.10.0.11;databaseName=Stores
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://172.10.0.11;databaseName=Petz
       - SPRING_DATASOURCE_USERNAME=SA
-      - SPRING_DATASOURCE_PASSWORD=Itau@2019
+      - SPRING_DATASOURCE_PASSWORD=Petz@2020
     depends_on:
       mssql-server:
         condition: service_healthy
@@ -37,21 +47,21 @@ services:
       - 8080:8080
     volumes:
       - ./../target/:/home/
-    entrypoint: ["sh", "-c", "java -jar /home/itau-latam-ppid-encryptor*.jar"]
+    entrypoint: ["sh", "-c", "java -jar /home/petz-code-cad*.jar"]
     healthcheck:
       test: ["CMD", "sh", "-c", "curl 
                                   --silent
                                   -i
                                   -H \"Content-Type: application/json\"
-                                  -X POST 
+                                  -X GET 
                                   -d '[{\"plaintext\":\"teste\"}]' 
-                                  \"http://172.10.0.12:8080/ppid/encrypt\" 
+                                  \"http://172.10.0.12:8080/cad/client/\" 
                                   -L | grep 'HTTP/1.1 200' || exit 1"]
 
     networks:
       intra:
         ipv4_address: 172.10.0.12
-    
+
   karate-server:
     image: qbarlas/karate-dsl
     container_name: karate-container
@@ -70,7 +80,7 @@ services:
     networks:
       intra:
         ipv4_address: 172.10.0.13
-      
+        
 networks:
   intra:
     driver: bridge

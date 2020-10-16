@@ -1,23 +1,25 @@
-CREATE database Stores;
+CREATE database Petz;
 GO
 
-USE Stores;
+USE Petz;
 GO
 
-CREATE TABLE Stores.dbo.KeyStore (
+CREATE TABLE Petz.dbo.Client (
 	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	secret_key varchar(32) NOT NULL UNIQUE,
-	salt varchar(32) NOT NULL UNIQUE,
-	created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP UNIQUE
+	name varchar(100) NOT NULL ,
+	address varchar(100) NOT NULL ,
+	district varchar(100) NOT NULL ,
+	uf varchar(2) NOT NULL ,
+	phone varchar(20) NOT NULL ,
+	email varchar(100) NOT NULL
 );
 GO
 
-INSERT INTO Stores.dbo.KeyStore (
-secret_key,
-salt
-)
-VALUES (
-'mssql-keystore-container',
-'mssql-keystore-container'
+CREATE TABLE Petz.dbo.Pet (
+	id int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	name varchar(100) NOT NULL ,
+	age varchar(100) NOT NULL ,
+	breed varchar(100) NOT NULL ,
+	note varchar(2) NOT NULL 
 );
 GO

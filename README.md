@@ -1,6 +1,6 @@
-## Keystore Service
+## Petz Service
 
-> Simple spring-boot miniservice application for encrypting and decrypting information on demand, while properly encoding and decoding it for transport.
+> Simple spring-boot miniservice application for Cads information on demand, while properly Consults it for transport.
 
 #### How to get the project source
 - Git:
@@ -41,7 +41,7 @@ If you are ruuning this application locally its possible run the MSSQL database 
 With all configurated, just type:
 
 ```
-java -jar ./target/itau-latam-ppid-encryptor-*.jar
+java -jar ./target/petz-code-cad*.jar
 ```
 
 <br/>
@@ -58,8 +58,8 @@ Import files located in assets/postman to your Postman IDE
 
 ## Running the Services
 > Let **${WORKSPACE}** be the path pointing to this project's source
-  - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//itau//areas//ms//work//itau-latam-keystore
-  - Ex.: In Unix environments, **${WORKSPACE}** -> /home/fgbelet/areas/ms/work/itau-latam-keystore
+  - Ex.: In Windows environments, **${WORKSPACE}** -> //c//work//areas//ms//work//Petz
+  - Ex.: In Unix environments, **${WORKSPACE}** -> /home/fgbelet/areas/ms/work/Petz
 
 
 
@@ -70,10 +70,10 @@ For Unix based environments:
 ```bash
 docker run \
   --rm \
-  --name mssql-keystore-container \
+  --name mssql-Petz-container \
   -e ACCEPT_EULA=Y \
   -v `pwd`/assets/docker/mssql/scripts:/tmp/scripts \
-  -e "SA_PASSWORD=Itau@2019" \
+  -e "SA_PASSWORD=Petz@2019" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
@@ -83,10 +83,10 @@ For Windows based environments:
 ```bash
 docker run \
   --rm \
-  --name mssql-keystore-container \
+  --name mssql-Petz-container \
   -e ACCEPT_EULA=Y \
   -v ${WORKSPACE}//assets//docker//mssql//scripts:/tmp/scripts \
-  -e "SA_PASSWORD=Itau@2019" \
+  -e "SA_PASSWORD=Petz@2019" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2017-latest bash /tmp/scripts/launch-db.sh
 ```
